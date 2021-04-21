@@ -66,6 +66,7 @@
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="267dp"
         android:layout_height="42dp"
+        android:indeterminate="false"
         android:max="2"
         android:progress="0"
         app:layout_constraintBottom_toTopOf="@+id/orderBtn"
@@ -100,6 +101,7 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="302dp"
         android:layout_height="142dp"
         android:layout_marginTop="8dp"
@@ -111,8 +113,7 @@
         <TableRow
             android:id="@+id/row1"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_weight="1"
+            android:layout_height="30dp"
 
             android:gravity="center_horizontal">
 
@@ -147,7 +148,6 @@
             android:id="@+id/row2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:gravity="center_horizontal">
 
             <TextView
@@ -181,8 +181,8 @@
         <TableRow
             android:id="@+id/row3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:layout_weight="0"
             android:gravity="center_horizontal">
 
             <TextView
@@ -214,5 +214,18 @@
         </TableRow>
 
     </TableLayout>
+
+    <TextView
+        android:id="@+id/seekBarValues"
+        android:layout_width="257dp"
+        android:layout_height="29dp"
+        android:text="1                       2                       3"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/orderBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

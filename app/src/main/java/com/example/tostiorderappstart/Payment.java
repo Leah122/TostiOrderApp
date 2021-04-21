@@ -28,11 +28,17 @@ public class Payment extends AppCompatActivity {
 
 
         // show the order
+
+
+        // moet nog worden:
+        // you have ordered the following under the name 'name'
+        // for (amount) {- tosti with ham and/or cheese}
+
         if (extras != null) {
             name = extras.getString("name");
             amount = extras.getInt("amount");
-            ham = extras.getBoolean("ham");
-            cheese = extras.getBoolean("cheese");
+            ham = extras.getBoolean("ham1");
+            cheese = extras.getBoolean("cheese1");
             if (ham && cheese) {
                 nameText.setText(Html.fromHtml("You have ordered <font color=#E62272>" + amount.toString() +
                         "</font> tosti(s) with <font color=#E62272>ham and cheese</font>, using the name <font color=#E62272>" + name + "</font>"));

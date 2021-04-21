@@ -20,9 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView orderText = (TextView) findViewById(R.id.orderText);
-        TextView enterNameText = (TextView) findViewById(R.id.enterNameText);
-        TextView howManyText = (TextView) findViewById(R.id.howManyText);
         TextView seekBarText = (TextView) findViewById(R.id.seekBarText);
         Button orderBtn = (Button) findViewById(R.id.orderBtn);
         TextInputLayout nameField = (TextInputLayout) findViewById(R.id.nameField);
@@ -41,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         row2.setVisibility(View.GONE);
         row3.setVisibility(View.GONE);
 
+        //temporary
+        seekBarText.setVisibility(View.GONE);
+
 
 
         // programming of the order button
@@ -56,10 +56,14 @@ public class MainActivity extends AppCompatActivity {
                 Boolean cheese = checkBoxCheese.isChecked();
 
                 // send the values to the payment page
+                // not toevoegen: extra booleans for ham2/3 en cheese2/3
+                // nog toevoegen, popup als ham en kaas allebei niet zijn aangevinkt (!ham && !cheese)
+                // waarschijnlijk het makkelijkst met een textview met background set en een half
+                // doorzichtig iets over het hele scherm om het grijs te maken, dan als je ergens tikt gaat het weg met view.gone
                 i.putExtra("name", name);
                 i.putExtra("amount", amount);
-                i.putExtra("ham", ham);
-                i.putExtra("cheese", cheese);
+                i.putExtra("ham1", ham);
+                i.putExtra("cheese1", cheese);
 
                 startActivity(i);
             }
@@ -70,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // set the value under the seekbar to the value of the seekbar (+1 because the seekbar starts at 0)
-                seekBarText.setText(String.valueOf(progress+1));
+//                seekBarText.setText(String.valueOf(progress+1));
 
-                // add and remove rows for choosing ham and/or cheese for each tosti
+                // add and remove rows for choosing ham and/or cheese for each tosti (is klein genoeg om het niet dynamisch te genereren
                 if(progress+1 == 1) {
                     row1.setVisibility(View.VISIBLE);
                     row2.setVisibility(View.GONE);
