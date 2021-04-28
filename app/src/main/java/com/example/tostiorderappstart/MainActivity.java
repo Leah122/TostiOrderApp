@@ -2,6 +2,8 @@ package com.example.tostiorderappstart;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -20,19 +23,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView seekBarText = (TextView) findViewById(R.id.seekBarText);
-        Button orderBtn = (Button) findViewById(R.id.orderBtn);
-        TextInputLayout nameField = (TextInputLayout) findViewById(R.id.nameField);
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-        CheckBox checkBoxHam = (CheckBox) findViewById(R.id.checkBoxHam);
-        CheckBox checkBoxCheese = (CheckBox) findViewById(R.id.checkBoxCheese);
-        CheckBox checkBoxHam2 = (CheckBox) findViewById(R.id.checkBoxHam2);
-        CheckBox checkBoxCheese2 = (CheckBox) findViewById(R.id.checkBoxCheese2);
-        CheckBox checkBoxHam3 = (CheckBox) findViewById(R.id.checkBoxHam3);
-        CheckBox checkBoxCheese3 = (CheckBox) findViewById(R.id.checkBoxCheese3);
-        TableRow row1 = (TableRow) findViewById(R.id.row1);
-        TableRow row2 = (TableRow) findViewById(R.id.row2);
-        TableRow row3 = (TableRow) findViewById(R.id.row3);
+        TextView seekBarText = findViewById(R.id.seekBarText);
+        Button orderBtn = findViewById(R.id.orderBtn);
+        TextInputLayout nameField = findViewById(R.id.nameField);
+        SeekBar seekBar = findViewById(R.id.seekBar);
+        CheckBox checkBoxHam1 = findViewById(R.id.checkBoxHam);
+        CheckBox checkBoxCheese1 = findViewById(R.id.checkBoxCheese);
+        CheckBox checkBoxHam2 = findViewById(R.id.checkBoxHam2);
+        CheckBox checkBoxCheese2 = findViewById(R.id.checkBoxCheese2);
+        CheckBox checkBoxHam3 = findViewById(R.id.checkBoxHam3);
+        CheckBox checkBoxCheese3 = findViewById(R.id.checkBoxCheese3);
+        TableRow row1 = findViewById(R.id.row1);
+        TableRow row2 = findViewById(R.id.row2);
+        TableRow row3 = findViewById(R.id.row3);
 
         // default is 1 tosti so the second and third row should be gone
         row2.setVisibility(View.GONE);
@@ -40,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         //temporary
         seekBarText.setVisibility(View.GONE);
-
-
 
         // programming of the order button
         orderBtn.setOnClickListener(new View.OnClickListener() {
@@ -52,20 +53,55 @@ public class MainActivity extends AppCompatActivity {
                 // get all values from this page
                 String name = nameField.getEditText().getText().toString();
                 Integer amount = seekBar.getProgress() + 1;
-                Boolean ham = checkBoxHam.isChecked();
-                Boolean cheese = checkBoxCheese.isChecked();
+                Boolean ham1 = checkBoxHam1.isChecked();
+                Boolean cheese1 = checkBoxCheese1.isChecked();
+                Boolean ham2 = checkBoxHam2.isChecked();
+                Boolean cheese2 = checkBoxCheese2.isChecked();
+                Boolean ham3 = checkBoxHam3.isChecked();
+                Boolean cheese3 = checkBoxCheese3.isChecked();
 
-                // send the values to the payment page
-                // not toevoegen: extra booleans for ham2/3 en cheese2/3
-                // nog toevoegen, popup als ham en kaas allebei niet zijn aangevinkt (!ham && !cheese)
-                // waarschijnlijk het makkelijkst met een textview met background set en een half
-                // doorzichtig iets over het hele scherm om het grijs te maken, dan als je ergens tikt gaat het weg met view.gone
+
                 i.putExtra("name", name);
                 i.putExtra("amount", amount);
-                i.putExtra("ham1", ham);
-                i.putExtra("cheese1", cheese);
+                i.putExtra("ham1", ham1);
+                i.putExtra("cheese1", cheese1);
+                if (amount >= 2) {
+                    i.putExtra("ham2", ham2);
+                    i.putExtra("cheese2", cheese2);
+                    if (amount == 3) {
+                        i.putExtra("ham3", ham3);
+                        i.putExtra("cheese3", cheese3);
+                    }
+                }
 
-                startActivity(i);
+                if (name.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("You have not entered a name.")
+                            .setPositiveButton("go back", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                } else if ((!ham1 && !cheese1) || (!ham2 && !cheese2) || (!ham3 && !cheese3)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("You have ordered a tosti with nothing.")
+                            .setPositiveButton("Go back", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // doei
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+
+                    dialog.show();
+
+                } else {
+                    startActivity(i);
+                }
+
             }
         });
 
