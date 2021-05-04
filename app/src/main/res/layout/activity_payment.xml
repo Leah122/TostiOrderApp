@@ -22,41 +22,15 @@
         app:layout_constraintVertical_bias="0.188" />
 
     <Button
-        android:id="@+id/payNowBtn"
+        android:id="@+id/doneBtn"
         android:layout_width="150dp"
         android:layout_height="70dp"
-        android:layout_marginTop="100dp"
-        android:text="Pay now: iDeal"
+        android:text="Done"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paymentName" />
-
-    <Button
-        android:id="@+id/payLaterBtn"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="28dp"
-        android:text="Pay later: cash"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/payNowBtn" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="How would you like to pay?"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/payNowBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paymentName"
-        app:layout_constraintVertical_bias="0.754" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
