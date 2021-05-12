@@ -24,7 +24,7 @@
         android:id="@+id/orderBtn"
         android:layout_width="161dp"
         android:layout_height="67dp"
-        android:text="Order: 0,60"
+        android:text="Order: €0,60"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

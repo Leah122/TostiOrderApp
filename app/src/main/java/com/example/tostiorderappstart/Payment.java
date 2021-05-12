@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -47,9 +48,7 @@ public class Payment extends AppCompatActivity {
             name = extras.getString("name");
             amount = extras.getInt("amount");
             Boolean[][] orderList = new Boolean[amount][2];
-
             orderList = (Boolean[][]) extras.getSerializable("orderList");
-
 
             String text = "You have ordered <font color=#E62272>" + amount.toString() + "</font> tosti's: <br>";
             for (int i = 0; i < amount; i++) {
@@ -81,18 +80,23 @@ public class Payment extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+
                         RequestBody requestBody = new MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
                                 .addFormDataPart("name", finalName)
-                                .addFormDataPart("name", finalAmount.toString())
+                                .addFormDataPart("amount", finalAmount.toString())
                                 .addFormDataPart("variants", finalVariants)
                                 .build();
                 Request request = new Request.Builder()
-                        .url("http://myip/task_manager/v1/register")
+                        .url("http://192.168.100.106:5000/tosti")
                         .post(requestBody)
                         .build();
 
-                final OkHttpClient client = new OkHttpClient();
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+
+                        final OkHttpClient client = new OkHttpClient();
+
                 try {
                     Response response = client.newCall(request).execute();
                 } catch (IOException e) {

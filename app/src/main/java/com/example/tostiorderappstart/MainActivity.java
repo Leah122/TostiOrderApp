@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
     void calculatePrice(CheckBox[][] checkboxes, SeekBar seekBar, Button orderBtn) {
 
         double price = 0;
-
         for (int i = 0; i <= seekBar.getProgress(); i++) {
             if (checkboxes[i][0].isChecked() || checkboxes[i][1].isChecked()) {
                 price += 0.50;
@@ -173,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // to make the price with 2 decimals
-        DecimalFormat priceDecimal = new DecimalFormat("#.##");
-        orderBtn.setText("Order: " + priceDecimal.format(price));
+        DecimalFormat priceDecimal = new DecimalFormat("0.00");
+        orderBtn.setText("Order: €" + priceDecimal.format(price));
 
         return;
     }
