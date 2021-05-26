@@ -96,7 +96,6 @@ public class PaymentComplete extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("State", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("id", id);
-        editor.putBoolean("ordered", true);
 
         // Commit the edits!
         editor.commit();

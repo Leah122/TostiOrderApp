@@ -34,28 +34,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SharedPreferences settings = getSharedPreferences("State", 0);
-        String id = settings.getString("id","0");
+        String id = settings.getString("id", "0");
         String queue = sendGet(id);
-        Boolean ordered = settings.getBoolean("ordered", false);
-        if (!queue.equals("0")) {
-            Intent i = new Intent(MainActivity.this, PaymentComplete.class);
-            i.putExtra("id", id);
-            startActivity(i);
-        } else if (queue.equals("0") && ordered){
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("Your order is ready!")
-                    .setPositiveButton("go back", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //niks
-                        }
-                    });
-            // Create the AlertDialog object and return it
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("ordered", false);
-            editor.commit();
+        if (!queue.equals("-1")) {
+            if (!queue.equals("0")) {
+                Intent i = new Intent(MainActivity.this, PaymentComplete.class);
+                i.putExtra("id", id);
+                startActivity(i);
+            } else if (queue.equals("0")) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Your order is ready!")
+                        .setPositiveButton("go back", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //niks
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         }
 
         setContentView(R.layout.activity_main);
