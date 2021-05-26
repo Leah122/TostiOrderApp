@@ -3,6 +3,8 @@ package com.example.tostiorderappstart;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -68,7 +70,6 @@ public class Payment extends AppCompatActivity {
             variants = variants.substring(0, variants.length() - 1);
 
             nameText.setText(Html.fromHtml(text));
-
         }
 
 
@@ -80,31 +81,64 @@ public class Payment extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-
                         RequestBody requestBody = new MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
                                 .addFormDataPart("name", finalName)
                                 .addFormDataPart("amount", finalAmount.toString())
                                 .addFormDataPart("variants", finalVariants)
                                 .build();
-                Request request = new Request.Builder()
-                        .url("http://192.168.100.106:5000/tosti")
-                        .post(requestBody)
-                        .build();
+                        Request request = new Request.Builder()
+                                .url("http://192.168.2.20:5000/tosti")
+                                .post(requestBody)
+                                .build();
 
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
 
                         final OkHttpClient client = new OkHttpClient();
 
-                try {
-                    Response response = client.newCall(request).execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                        String id = "";
+                        try {
+                            Response response = client.newCall(request).execute();
+                            id = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Payment.this);
+                            builder.setMessage("Something went wrong ;(")
+                                    .setPositiveButton("go back", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            Intent i = new Intent(Payment.this, MainActivity.class);
+                                            startActivity(i);
+                                        }
+                                    });
+                            // Create the AlertDialog object and return it
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
 
-                Intent i = new Intent(Payment.this, PaymentComplete.class);
-                startActivity(i);
+
+//
+//                client.newCall(request).enqueue(new Callback() {
+//                                                    @Override
+//                                                    public void onFailure(Call call, IOException e) {
+//                                                        e.printStackTrace();
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onResponse(Call call, final Response response) throws IOException {
+//                                                        if (!response.isSuccessful()) {
+//                                                            throw new IOException("Unexpected code " + response);
+//                                                        } else {
+//                                                            id = response.body().string();
+//                                                        }
+//                                                    }
+//                                                });
+//
+
+
+                        Intent i = new Intent(Payment.this, PaymentComplete.class);
+                        i.putExtra("id", id);
+                        startActivity(i);
             }
         });
     }

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,14 +19,45 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences settings = getSharedPreferences("State", 0);
+        String id = settings.getString("id","0");
+        String queue = sendGet(id);
+        Boolean ordered = settings.getBoolean("ordered", false);
+        if (!queue.equals("0")) {
+            Intent i = new Intent(MainActivity.this, PaymentComplete.class);
+            i.putExtra("id", id);
+            startActivity(i);
+        } else if (queue.equals("0") && ordered){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("Your order is ready!")
+                    .setPositiveButton("go back", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //niks
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("ordered", false);
+            editor.commit();
+        }
+
         setContentView(R.layout.activity_main);
 
         // get all the layout components
@@ -141,8 +174,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     void Dialog (String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setMessage(message)
@@ -178,4 +209,23 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
+    String sendGet(String id) {
+        Request request = new Request.Builder()
+                .url("http://192.168.2.20:5000/queue?id=" + id)
+                .build();
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        final OkHttpClient client = new OkHttpClient();
+
+        String queue = "";
+        try {
+            Response response = client.newCall(request).execute();
+            queue = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return queue;
+    }
 }
