@@ -10,7 +10,7 @@
         android:id="@+id/orderText"
         android:layout_width="258dp"
         android:layout_height="42dp"
-        android:text="Order your tosti here"
+        android:text="@string/order_your_tosti_here"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp"
@@ -24,7 +24,7 @@
         android:id="@+id/orderBtn"
         android:layout_width="161dp"
         android:layout_height="67dp"
-        android:text="Order: €0,60"
+        android:text="@string/order_0_60"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         android:id="@+id/enterNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter your name:"
+        android:text="@string/enter_your_name"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/orderBtn"
@@ -58,7 +58,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="name" />
+            android:hint="@string/name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <SeekBar
@@ -79,7 +79,7 @@
         android:id="@+id/howManyText"
         android:layout_width="395dp"
         android:layout_height="29dp"
-        android:text="How many tosti's would you like to order"
+        android:text="@string/how_many_tosti_s_would_you_like_to_order"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -89,26 +89,15 @@
         app:layout_constraintTop_toBottomOf="@+id/nameField"
         app:layout_constraintVertical_bias="0.75" />
 
-    <TextView
-        android:id="@+id/seekBarText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
-
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="302dp"
         android:layout_height="142dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toTopOf="@+id/orderBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarText">
+        app:layout_constraintTop_toBottomOf="@+id/seekBar">
 
         <TableRow
             android:id="@+id/row1"
@@ -123,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="Tosti 1" />
+                android:text="@string/tosti_1" />
 
             <CheckBox
                 android:id="@+id/checkBoxHam"
@@ -132,7 +121,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:checked="true"
-                android:text="Ham" />
+                android:text="@string/ham" />
 
             <CheckBox
                 android:id="@+id/checkBoxCheese"
@@ -141,7 +130,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:checked="true"
-                android:text="Cheese" />
+                android:text="@string/cheese" />
         </TableRow>
 
         <TableRow
@@ -156,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="Tosti 2" />
+                android:text="@string/tosti_2" />
 
             <CheckBox
                 android:id="@+id/checkBoxHam2"
@@ -165,7 +154,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:checked="true"
-                android:text="Ham" />
+                android:text="@string/ham" />
 
             <CheckBox
                 android:id="@+id/checkBoxCheese2"
@@ -174,7 +163,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:checked="true"
-                android:text="Cheese" />
+                android:text="@string/cheese" />
 
         </TableRow>
 
@@ -191,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="Tosti 3" />
+                android:text="@string/tosti_3" />
 
             <CheckBox
                 android:id="@+id/checkBoxHam3"
@@ -200,7 +189,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:checked="true"
-                android:text="Ham" />
+                android:text="@string/ham" />
 
             <CheckBox
                 android:id="@+id/checkBoxCheese3"
@@ -209,23 +198,40 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:checked="true"
-                android:text="Cheese" />
+                android:text="@string/cheese" />
 
         </TableRow>
 
     </TableLayout>
 
     <TextView
-        android:id="@+id/seekBarValues"
-        android:layout_width="257dp"
-        android:layout_height="29dp"
-        android:text="1                       2                       3"
-        android:textAlignment="center"
+        android:id="@+id/SeekBarText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="1"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/orderBtn"
+        app:layout_constraintStart_toStartOf="@+id/seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+    <TextView
+        android:id="@+id/SeekBarText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="3"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+    <TextView
+        android:id="@+id/SeekBarText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

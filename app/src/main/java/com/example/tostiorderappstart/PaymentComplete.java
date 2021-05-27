@@ -33,36 +33,39 @@ public class PaymentComplete extends AppCompatActivity {
         TextView queueText = findViewById(R.id.queue);
         Button refreshButton = findViewById(R.id.refreshButton);
         orderSentText.setText("Your order has been sent with id: " + id);
-        // get request to server with id
-        // position in queue weer printen
 
-        String queue = sendGet(id);
-
+        // send GET request to the server to get the place in the queue
+        String queue = HelperFunctions.sendGet(id);
         queueText.setText("your place in the queue is: " + queue);
 
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String queue = sendGet(id);
+                String queue = HelperFunctions.sendGet(id);
                 queueText.setText("your place in the queue is: " + queue);
 
                 if (queue.equals("0")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(PaymentComplete.this);
-                    builder.setMessage("Your order is ready!")
-                            .setPositiveButton("go back", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent i = new Intent(PaymentComplete.this, MainActivity.class);
-                                    startActivity(i);
-                                }
-                            });
-                    // Create the AlertDialog object and return it
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                    HelperFunctions.dialogWithIntent("Your order is ready!", PaymentComplete.this, MainActivity.class);
                 }
             }
         });
     }
 
+    // generate a popup to tell the user that their order is ready, then go back to the home screen
+    void dialogWithIntent () {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PaymentComplete.this);
+        builder.setMessage("Your order is ready!")
+                .setPositiveButton("go back", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent i = new Intent(PaymentComplete.this, MainActivity.class);
+                        startActivity(i);
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    // send a get request to the queue
     String sendGet(String id) {
         Request request = new Request.Builder()
                 .url("http://192.168.2.20:5000/queue?id=" + id)
@@ -83,11 +86,13 @@ public class PaymentComplete extends AppCompatActivity {
         return queue;
     }
 
+    // the back button should not work in this activity
     @Override
     public void onBackPressed() {
-        // Nothing;
+        // Nothing
     }
 
+    // when the app is stopped in this activity, the id is saved.
     @Override
     protected void onStop() {
         super.onStop();
