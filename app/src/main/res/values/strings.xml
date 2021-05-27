@@ -11,4 +11,11 @@
     <string name="how_many_tosti_s_would_you_like_to_order">How many tosti\'s would you like to order?</string>
     <string name="name">name</string>
     <string name="enter_your_name">Enter your name:</string>
+    <string name="your_order_has_been_sent">Your order has been sent!</string>
+    <string name="refresh">Refresh</string>
+    <string name="textview">TextView</string>
+    <string name="done">Done</string>
+    <string name="_1">1</string>
+    <string name="_3">3</string>
+    <string name="_2">2</string>
 </resources>
