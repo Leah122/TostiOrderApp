@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if the previously saved id is still in the queue
         SharedPreferences settings = getSharedPreferences("State", 0);
-        String id = settings.getString("id", "0");
+        String id = settings.getString("id", "1");
+        id = "1";
         String queue = HelperFunctions.sendGet(id);
         HelperFunctions.startUp(id, queue, MainActivity.this);
 

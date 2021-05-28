@@ -45,7 +45,9 @@ public class PaymentComplete extends AppCompatActivity {
                 queueText.setText("your place in the queue is: " + queue);
 
                 if (queue.equals("0")) {
-                    HelperFunctions.dialogWithIntent("Your order is ready!", PaymentComplete.this, MainActivity.class);
+                    // HelperFunctions.dialogWithIntent("Your order is ready!", PaymentComplete.this, MainActivity.class);
+                    Intent i = new Intent(PaymentComplete.this, MainActivity.class);
+                    startActivity(i);
                 }
             }
         });

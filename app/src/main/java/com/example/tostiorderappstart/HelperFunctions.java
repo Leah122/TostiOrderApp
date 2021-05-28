@@ -58,8 +58,9 @@ public class HelperFunctions extends Activity {
 
     // send a get request to the queue
     static String sendGet(String id) {
+        String url = "http://192.168.2.20:5000/queue?id=" + id;
         Request request = new Request.Builder()
-                .url("http://192.168.2.20:5000/queue?id=" + id)
+                .url(url)
                 .build();
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

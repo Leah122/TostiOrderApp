@@ -57,7 +57,25 @@ public class Payment extends AppCompatActivity {
             orderList = (Boolean[][]) extras.getSerializable("orderList");
 
             // set the text of the order
-            HelperFunctions.setText(amount, orderList, name, nameText);
+            // HelperFunctions.setText(amount, orderList, name, nameText);
+            String text = "You have ordered <font color=#E62272>" + amount.toString() + "</font> tosti's: <br>";
+            for (int i = 0; i < amount; i++) {
+                text += "one tosti with ";
+                if (orderList[i][0] && orderList[i][1]) {
+                    text += "ham and cheese <br>";
+                    variants += "HamCheese ";
+                } else if (orderList[i][0]) {
+                    text += "ham <br>";
+                    variants += "Ham ";
+                } else if (orderList[i][1]) {
+                    text += "cheese <br>";
+                    variants += "Cheese ";
+                }
+            }
+            text += "with name: <font color=#E62272>" + name + "</font>";
+            variants = variants.substring(0, variants.length() - 1);
+
+            nameText.setText(Html.fromHtml(text));
         }
 
         // had to be final for the HTTP request
@@ -88,6 +106,7 @@ public class Payment extends AppCompatActivity {
                 try {
                     Response response = client.newCall(request).execute();
                     id = response.body().string();
+
                 } catch (IOException e) {
                     e.printStackTrace();
 
