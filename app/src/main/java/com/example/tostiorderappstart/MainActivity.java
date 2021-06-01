@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         row3.setVisibility(View.GONE);
 
         // set onchange listener for all of the checkboxes to calculate the new price.
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 2; j++) {
-                checkboxes[i][j].setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+        for (Checkbox checkboxList : checkboxes) {
+            for (Checkbox checkbox : checkboxList) {
+                checkbox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         HelperFunctions.calculatePrice(checkboxes, seekBar, orderBtn);
@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 // handle errors
                 if (name.isEmpty()) {
                     HelperFunctions.Dialog("You have not entered a name.", MainActivity.this);
-                } else if ((!(orderList[0][0]) && !(orderList[0][1])) || (!(orderList[1][0]) &&
-                        !(orderList[1][1])) || (!(orderList[2][0]) && !(orderList[2][1]))) {
+                } else if (!(orderList[0][0] || orderList[0][1]) || !(orderList[1][0] ||
+                        orderList[1][1]) || !(orderList[2][0] || orderList[2][1])) {
                     HelperFunctions.Dialog("You have ordered a tosti with nothing.", MainActivity.this);
                 } else {
                     //go to the next activity with the order.
@@ -114,15 +114,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // add and remove rows for choosing ham and/or cheese for each tosti (is klein genoeg om het niet dynamisch te genereren)
-                if(progress+1 == 1) {
+                if(progress == 0) {
                     row1.setVisibility(View.VISIBLE);
                     row2.setVisibility(View.GONE);
                     row3.setVisibility(View.GONE);
-                } else if (progress+1 == 2) {
+                } else if (progress == 1) {
                     row1.setVisibility(View.VISIBLE);
                     row2.setVisibility(View.VISIBLE);
                     row3.setVisibility(View.GONE);
-                } else if (progress+1 == 3) {
+                } else if (progress == 2) {
                     row1.setVisibility(View.VISIBLE);
                     row2.setVisibility(View.VISIBLE);
                     row3.setVisibility(View.VISIBLE);
@@ -154,9 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         // Create the AlertDialog object and return it
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        return;
+        builder.create().show();
     }
 
     // calculate the price of the order
@@ -171,10 +169,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        // to make the price with 2 decimals
-        DecimalFormat priceDecimal = new DecimalFormat("0.00");
-        orderBtn.setText("Order: €" + priceDecimal.format(price));
-        return;
+        
+        // show price with 2 decimals
+        orderBtn.setText("Order: €" +  new DecimalFormat("0.00").format(price));
     }
 
     // send a get request to the queue
@@ -183,8 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 .url("http://192.168.2.20:5000/queue?id=" + id)
                 .build();
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
 
         final OkHttpClient client = new OkHttpClient();
 
@@ -205,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, PaymentComplete.class);
                 i.putExtra("id", id);
                 startActivity(i);
-            } else if (queue.equals("0")) {
+            } else {
                 Dialog("Your order is ready!");
             }
         }
