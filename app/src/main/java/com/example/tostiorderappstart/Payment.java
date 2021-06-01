@@ -33,9 +33,9 @@ public class Payment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         
-        // weet ff niet wat dit is
+        // creates the upper actionbar containing a back button
         ActionBar actionBar = this.getSupportActionBar();
-        actionBar.setTitle("Test");
+        actionBar.setTitle("Confirm order");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // get all components of this view
