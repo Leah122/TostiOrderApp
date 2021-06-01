@@ -46,8 +46,7 @@ public class PaymentComplete extends AppCompatActivity {
 
                 if (queue.equals("0")) {
                     // HelperFunctions.dialogWithIntent("Your order is ready!", PaymentComplete.this, MainActivity.class);
-                    Intent i = new Intent(PaymentComplete.this, MainActivity.class);
-                    startActivity(i);
+                    startActivity(new Intent(PaymentComplete.this, MainActivity.class));
                 }
             }
         });
@@ -63,8 +62,7 @@ public class PaymentComplete extends AppCompatActivity {
                         startActivity(i);
                     }
                 });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.create().show();
     }
 
     // send a get request to the queue
@@ -73,8 +71,7 @@ public class PaymentComplete extends AppCompatActivity {
                 .url("http://192.168.2.20:5000/queue?id=" + id)
                 .build();
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build(););
 
         final OkHttpClient client = new OkHttpClient();
 
