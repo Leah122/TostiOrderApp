@@ -33,9 +33,7 @@ public class HelperFunctions extends Activity {
                     }
                 });
         // Create the AlertDialog object and return it
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        return;
+        builder.create().show();
     }
 
     // calculate the price of the order
@@ -50,10 +48,8 @@ public class HelperFunctions extends Activity {
                 }
             }
         }
-        // to make the price with 2 decimals
-        DecimalFormat priceDecimal = new DecimalFormat("0.00");
-        orderBtn.setText("Order: €" + priceDecimal.format(price));
-        return;
+        // show price with 2 decimals
+        orderBtn.setText("Order: €" +  new DecimalFormat("0.00").format(price));
     }
 
     // send a get request to the queue
@@ -63,8 +59,7 @@ public class HelperFunctions extends Activity {
                 .url(url)
                 .build();
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
 
         final OkHttpClient client = new OkHttpClient();
 
@@ -101,8 +96,7 @@ public class HelperFunctions extends Activity {
                         context.startActivity(i);
                     }
                 });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.create().show();
     }
 
     static void setText(Integer amount, Boolean[][] orderList, String name, TextView nameText) {
