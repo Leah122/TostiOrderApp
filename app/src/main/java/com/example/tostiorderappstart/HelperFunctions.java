@@ -23,6 +23,9 @@ import static java.security.AccessController.getContext;
 
 public class HelperFunctions extends Activity {
 
+    // used to change the ip everywhere
+    public static final String HOST_IP = "192.168.2.20";
+
     // create a popup with a variable message.
     static void Dialog(String message, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -54,7 +57,7 @@ public class HelperFunctions extends Activity {
 
     // send a get request to the queue
     static String sendGet(String id) {
-        String url = "http://192.168.2.20:5000/queue?id=" + id;
+        String url = "http://" + HelperFunctions.HOST_IP + ":5000/queue?id=" + id;
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -86,7 +89,7 @@ public class HelperFunctions extends Activity {
         }
     }
 
-    // generate a popup to tell the user that their order is ready, then go back to the home screen
+    // create a popup with a variable message and go to another activity.
     static void dialogWithIntent(String message, Context context, Class to) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(message)
@@ -99,11 +102,11 @@ public class HelperFunctions extends Activity {
         builder.create().show();
     }
 
-    static void setText(Integer amount, Boolean[][] orderList, String name, TextView nameText) {
+    static String setText(Integer amount, Boolean[][] orderList, String name, TextView nameText) {
         String variants = "";
-        String text = "You have ordered <font color=#E62272>" + amount.toString() + "</font> tosti's: <br>";
+        String text = "You have ordered <font color=#E62272>" + amount.toString() + "</font> toasties: <br>";
         for (int i = 0; i < amount; i++) {
-            text += "one tosti with ";
+            text += "one toastie with ";
             if (orderList[i][0] && orderList[i][1]) {
                 text += "ham and cheese <br>";
                 variants += "HamCheese ";
@@ -119,5 +122,6 @@ public class HelperFunctions extends Activity {
         variants = variants.substring(0, variants.length() - 1);
 
         nameText.setText(Html.fromHtml(text));
+        return variants;
     }
 }

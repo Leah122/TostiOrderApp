@@ -25,7 +25,7 @@
         android:id="@+id/doneBtn"
         android:layout_width="150dp"
         android:layout_height="70dp"
-        android:text="@string/done"
+        android:text="@string/confirm_order"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

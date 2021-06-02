@@ -26,9 +26,12 @@ public class PaymentComplete extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_complete);
+
+        // get intent from the previous page
         Bundle extras = getIntent().getExtras();
         id = extras.getString("id");
 
+        // get all the layout components
         TextView orderSentText = findViewById(R.id.orderSentText);
         TextView queueText = findViewById(R.id.queue);
         Button refreshButton = findViewById(R.id.refreshButton);
@@ -38,51 +41,19 @@ public class PaymentComplete extends AppCompatActivity {
         String queue = HelperFunctions.sendGet(id);
         queueText.setText("your place in the queue is: " + queue);
 
+        // set the onclick for the refresh button
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String queue = HelperFunctions.sendGet(id);
                 queueText.setText("your place in the queue is: " + queue);
 
+                // if you are removed from the queue, start the main page to order again
                 if (queue.equals("0")) {
-                    // HelperFunctions.dialogWithIntent("Your order is ready!", PaymentComplete.this, MainActivity.class);
                     startActivity(new Intent(PaymentComplete.this, MainActivity.class));
                 }
             }
         });
-    }
-
-    // generate a popup to tell the user that their order is ready, then go back to the home screen
-    void dialogWithIntent () {
-        AlertDialog.Builder builder = new AlertDialog.Builder(PaymentComplete.this);
-        builder.setMessage("Your order is ready!")
-                .setPositiveButton("go back", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent i = new Intent(PaymentComplete.this, MainActivity.class);
-                        startActivity(i);
-                    }
-                });
-        builder.create().show();
-    }
-
-    // send a get request to the queue
-    String sendGet(String id) {
-        Request request = new Request.Builder()
-                .url("http://192.168.2.20:5000/queue?id=" + id)
-                .build();
-
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build(););
-
-        final OkHttpClient client = new OkHttpClient();
-
-        String queue = "";
-        try {
-            Response response = client.newCall(request).execute();
-            queue = response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return queue;
     }
 
     // the back button should not work in this activity
@@ -91,17 +62,13 @@ public class PaymentComplete extends AppCompatActivity {
         // Nothing
     }
 
-    // when the app is stopped in this activity, the id is saved.
+    // when the app is stopped in this activity, the id is saved in the sharedpreferences.
     @Override
     protected void onStop() {
         super.onStop();
-        // We need an Editor object to make preference changes.
-        // All objects are from android.context.Context
         SharedPreferences settings = getSharedPreferences("State", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("id", id);
-
-        // Commit the edits!
         editor.commit();
     }
 }

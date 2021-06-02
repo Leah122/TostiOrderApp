@@ -25,6 +25,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -62,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
         row3.setVisibility(View.GONE);
 
         // set onchange listener for all of the checkboxes to calculate the new price.
-        for (Checkbox checkboxList : checkboxes) {
-            for (Checkbox checkbox : checkboxList) {
+        for (CheckBox[] checkboxList : checkboxes) {
+            for (CheckBox checkbox : checkboxList) {
                 checkbox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     HelperFunctions.Dialog("You have not entered a name.", MainActivity.this);
                 } else if (!(orderList[0][0] || orderList[0][1]) || !(orderList[1][0] ||
                         orderList[1][1]) || !(orderList[2][0] || orderList[2][1])) {
-                    HelperFunctions.Dialog("You have ordered a tosti with nothing.", MainActivity.this);
+                    HelperFunctions.Dialog("You have ordered a toastie with nothing.", MainActivity.this);
                 } else {
                     //go to the next activity with the order.
                     Intent i = new Intent(MainActivity.this, Payment.class);
@@ -108,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // showing the value of the seekbar and showing the checkboxes
+        // showing the checkboxes and calculating the price when the seekbar changes
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -139,71 +140,5 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-
-    }
-
-
-
-    // create a popup with a variable message.
-    void Dialog (String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage(message)
-                .setPositiveButton("go back", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //
-                    }
-                });
-        // Create the AlertDialog object and return it
-        builder.create().show();
-    }
-
-    // calculate the price of the order
-    void calculatePrice(CheckBox[][] checkboxes, SeekBar seekBar, Button orderBtn) {
-        double price = 0;
-        for (int i = 0; i <= seekBar.getProgress(); i++) {
-            if (checkboxes[i][0].isChecked() || checkboxes[i][1].isChecked()) {
-                price += 0.50;
-
-                if (checkboxes[i][0].isChecked() && checkboxes[i][1].isChecked()) {
-                    price += 0.10;
-                }
-            }
-        }
-        
-        // show price with 2 decimals
-        orderBtn.setText("Order: €" +  new DecimalFormat("0.00").format(price));
-    }
-
-    // send a get request to the queue
-    String sendGet(String id) {
-        Request request = new Request.Builder()
-                .url("http://192.168.2.20:5000/queue?id=" + id)
-                .build();
-
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
-
-        final OkHttpClient client = new OkHttpClient();
-
-        String queue = "";
-        try {
-            Response response = client.newCall(request).execute();
-            queue = response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return queue;
-    }
-
-    // determine how to start, depending whether the previous order is in the queue or not
-    void startUp(String id, String queue) {
-        if (!queue.equals("-1")) {
-            if (!queue.equals("0")) {
-                Intent i = new Intent(MainActivity.this, PaymentComplete.class);
-                i.putExtra("id", id);
-                startActivity(i);
-            } else {
-                Dialog("Your order is ready!");
-            }
-        }
     }
 }

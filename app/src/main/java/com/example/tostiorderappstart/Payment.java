@@ -35,7 +35,7 @@ public class Payment extends AppCompatActivity {
         
         // creates the upper actionbar containing a back button
         ActionBar actionBar = this.getSupportActionBar();
-        actionBar.setTitle("Confirm order");
+        actionBar.setTitle("Go Back");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // get all components of this view
@@ -57,35 +57,19 @@ public class Payment extends AppCompatActivity {
             orderList = (Boolean[][]) extras.getSerializable("orderList");
 
             // set the text of the order
-            // HelperFunctions.setText(amount, orderList, name, nameText);
-            String text = "You have ordered <font color=#E62272>" + amount.toString() + "</font> tosti's: <br>";
-            for (int i = 0; i < amount; i++) {
-                text += "one tosti with ";
-                if (orderList[i][0] && orderList[i][1]) {
-                    text += "ham and cheese <br>";
-                    variants += "HamCheese ";
-                } else if (orderList[i][0]) {
-                    text += "ham <br>";
-                    variants += "Ham ";
-                } else if (orderList[i][1]) {
-                    text += "cheese <br>";
-                    variants += "Cheese ";
-                }
-            }
-            text += "with name: <font color=#E62272>" + name + "</font>";
-            variants = variants.substring(0, variants.length() - 1);
-
-            nameText.setText(Html.fromHtml(text));
+            variants = HelperFunctions.setText(amount, orderList, name, nameText);
         }
 
         // had to be final for the HTTP request
-        String finalName = name;
-        Integer finalAmount = amount;
-        String finalVariants = variants;
+        final String finalName = name;
+        final Integer finalAmount = amount;
+        final String finalVariants = variants;
+
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                // creating the POST request
                 RequestBody requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("name", finalName)
@@ -93,15 +77,17 @@ public class Payment extends AppCompatActivity {
                         .addFormDataPart("variants", finalVariants)
                         .build();
                 Request request = new Request.Builder()
-                        .url("http://192.168.2.20:5000/tosti")
+                        .url("http://" + HelperFunctions.HOST_IP + ":5000/tosti")
                         .post(requestBody)
                         .build();
 
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
+                // because it is http and not https, we need to set the policy to permit all
+                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
 
+                // make a client
                 final OkHttpClient client = new OkHttpClient();
 
+                // try to send the request and get the response, if something went wrong, t
                 String id = "";
                 try {
                     Response response = client.newCall(request).execute();
@@ -109,50 +95,14 @@ public class Payment extends AppCompatActivity {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-
                     HelperFunctions.dialogWithIntent("Something went wrong, please try again",Payment.this, MainActivity.class);
-//                    // dit moet nog met een dialog call!!
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(Payment.this);
-//                    builder.setMessage("Something went wrong ;(")
-//                            .setPositiveButton("go back", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    Intent i = new Intent(Payment.this, MainActivity.class);
-//                                    startActivity(i);
-//                                }
-//                            });
-//                    // Create the AlertDialog object and return it
-//                    AlertDialog dialog = builder.create();
-//                    dialog.show();
                 }
 
+                //go to the payment complete page
                 Intent i = new Intent(Payment.this, PaymentComplete.class);
                 i.putExtra("id", id);
                 startActivity(i);
             }
         });
     }
-    
-    void setText(Integer amount, Boolean[][] orderList, String name, TextView nameText) {
-        String variants = "";
-        String text = "You have ordered <font color=#E62272>" + amount.toString() + "</font> tosti's: <br>";
-        for (int i = 0; i < amount; i++) {
-            text += "one tosti with ";
-            if (orderList[i][0] && orderList[i][1]) {
-                text += "ham and cheese <br>";
-                variants += "HamCheese ";
-            } else if (orderList[i][0]) {
-                text += "ham <br>";
-                variants += "Ham ";
-            } else if (orderList[i][1]) {
-                text += "cheese <br>";
-                variants += "Cheese ";
-            }
-        }
-        text += "with name: <font color=#E62272>" + name + "</font>";
-        variants = variants.substring(0, variants.length() - 1);
-
-        nameText.setText(Html.fromHtml(text));
-    }
-    
-    
 }

@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">TostiOrderAppStart</string>
-    <string name="order_your_tosti_here">Order your tosti here</string>
+    <string name="order_your_tosti_here">Order your toastie here</string>
     <string name="order_0_60">Order: €0,60</string>
     <string name="_1_2_3">1        2       3</string>
     <string name="cheese">Cheese</string>
     <string name="ham">Ham</string>
-    <string name="tosti_3">Tosti 3</string>
-    <string name="tosti_2">Tosti 2</string>
-    <string name="tosti_1">Tosti 1</string>
-    <string name="how_many_tosti_s_would_you_like_to_order">How many tosti\'s would you like to order?</string>
+    <string name="tosti_3">Toastie 3</string>
+    <string name="tosti_2">Toastie 2</string>
+    <string name="tosti_1">Toastie 1</string>
+    <string name="how_many_tosti_s_would_you_like_to_order">How many toasties would you like to order?</string>
     <string name="name">name</string>
     <string name="enter_your_name">Enter your name:</string>
     <string name="your_order_has_been_sent">Your order has been sent!</string>
@@ -18,4 +18,5 @@
     <string name="_1">1</string>
     <string name="_3">3</string>
     <string name="_2">2</string>
+    <string name="confirm_order">Confirm Order</string>
 </resources>
