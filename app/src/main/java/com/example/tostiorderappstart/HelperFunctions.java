@@ -62,6 +62,7 @@ public class HelperFunctions extends Activity {
                 .url(url)
                 .build();
 
+        // because it is http and not https, we need to set the policy to permit all
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
 
         final OkHttpClient client = new OkHttpClient();

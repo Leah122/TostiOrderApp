@@ -35,10 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if the previously saved id is still in the queue
         SharedPreferences settings = getSharedPreferences("State", 0);
-        String id = settings.getString("id", "1");
-        id = "1";
-        String queue = HelperFunctions.sendGet(id);
-        HelperFunctions.startUp(id, queue, MainActivity.this);
+        String id = settings.getString("id", "0");
+        if (!id.equals("0")) {
+            String queue = HelperFunctions.sendGet(id);
+            HelperFunctions.startUp(id, queue, MainActivity.this);
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -92,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // handle errors
-                if (name.isEmpty()) {
+                if (name.isEmpty()) { // no name
                     HelperFunctions.Dialog("You have not entered a name.", MainActivity.this);
-                } else if (!(orderList[0][0] || orderList[0][1]) || !(orderList[1][0] ||
+                } else if (!(orderList[0][0] || orderList[0][1]) || !(orderList[1][0] || // one tosti with nothing is ordered
                         orderList[1][1]) || !(orderList[2][0] || orderList[2][1])) {
                     HelperFunctions.Dialog("You have ordered a toastie with nothing.", MainActivity.this);
                 } else {

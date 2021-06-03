@@ -49,7 +49,7 @@ public class PaymentComplete extends AppCompatActivity {
                 queueText.setText("your place in the queue is: " + queue);
 
                 // if you are removed from the queue, start the main page to order again
-                if (queue.equals("0")) {
+                if (queue.equals("0") || queue.equals("-1")) {
                     startActivity(new Intent(PaymentComplete.this, MainActivity.class));
                 }
             }
@@ -59,7 +59,7 @@ public class PaymentComplete extends AppCompatActivity {
     // the back button should not work in this activity
     @Override
     public void onBackPressed() {
-        // Nothing
+
     }
 
     // when the app is stopped in this activity, the id is saved in the sharedpreferences.
